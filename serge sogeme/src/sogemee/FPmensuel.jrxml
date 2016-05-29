@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="500" pageHeight="842" columnWidth="460" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="annee" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select MONTHNAME( dateLivraison),f.idFormePlanche,f.libelleFormePlanche,i.pu,sum(q.qteLivraison),(sum(q.qteLivraison))*i.pu from formePlanche f,planche p,inclure i,livraison l,commande c,livraison_planche q where p.idFormePlanche=f.idFormePlanche and q.idPlanche=p.idPlanche and c.idCommande=l.idCommande and l.idLivraison=q.idLivraison and i.idPlanche=p.idPlanche and i.idCommande=c.idCommande and EXTRACT(YEAR from dateLivraison)=$P{annee} and f.suppr=0    group by f.idFormePlanche,MONTHNAME( dateLivraison)]]>
+	</queryString>
+	<field name="MONTHNAME( dateLivraison)" class="java.lang.String"/>
+	<field name="idFormePlanche" class="java.lang.Long"/>
+	<field name="libelleFormePlanche" class="java.lang.String"/>
+	<field name="pu" class="java.lang.Double"/>
+	<field name="sum(q.qteLivraison)" class="java.math.BigDecimal"/>
+	<field name="(sum(q.qteLivraison))*i.pu" class="java.lang.Double"/>
+	<group name="yep">
+		<groupExpression><![CDATA[$F{libelleFormePlanche}]]></groupExpression>
+		<groupHeader>
+			<band height="50">
+				<staticText>
+					<reportElement x="0" y="25" width="100" height="12"/>
+					<textElement>
+						<font isBold="true" isUnderline="true"/>
+					</textElement>
+					<text><![CDATA[Quantité ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="123" y="25" width="100" height="12"/>
+					<textElement>
+						<font isBold="true" isUnderline="true"/>
+					</textElement>
+					<text><![CDATA[Prix Unitaire]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="234" y="25" width="100" height="12"/>
+					<textElement>
+						<font isBold="true" isUnderline="true"/>
+					</textElement>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="352" y="25" width="100" height="12"/>
+					<textElement>
+						<font isBold="true" isUnderline="true"/>
+					</textElement>
+					<text><![CDATA[Mois]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="0" y="0" width="100" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{libelleFormePlanche}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6">
+				<frame>
+					<reportElement mode="Opaque" x="0" y="0" width="450" height="5" backcolor="#777070"/>
+				</frame>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement x="35" y="0" width="368" height="20"/>
+				<textElement>
+					<font size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Montant Achat mensuel par forme de planche]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="155" y="0" width="68" height="20"/>
+				<textElement>
+					<font size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Année :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="223" y="0" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{annee}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="15" width="450" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="350" y="0" width="100" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MONTHNAME( dateLivraison)}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="123" y="0" width="100" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{pu}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="234" y="0" width="100" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{(sum(q.qteLivraison))*i.pu}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="100" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{sum(q.qteLivraison)}.toString()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

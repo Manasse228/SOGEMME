@@ -1,0 +1,21 @@
+<?xml version="1.0"?><!-- iReport connections -->
+<iReportConnectionSet>
+	<iReportConnection name="diablo" connectionClass="it.businesslogic.ireport.connection.JDBCConnection">
+		<connectionParameter name="ServerAddress"><![CDATA[127.0.0.1]]></connectionParameter>
+		<connectionParameter name="SavePassword"><![CDATA[false]]></connectionParameter>
+		<connectionParameter name="Url"><![CDATA[jdbc:mysql://localhost/david]]></connectionParameter>
+		<connectionParameter name="JDBCDriver"><![CDATA[com.mysql.jdbc.Driver]]></connectionParameter>
+		<connectionParameter name="Database"><![CDATA[david]]></connectionParameter>
+		<connectionParameter name="Password"><![CDATA[]]></connectionParameter>
+		<connectionParameter name="Username"><![CDATA[root]]></connectionParameter>
+	</iReportConnection>
+	<iReportConnection name="sogeme" connectionClass="it.businesslogic.ireport.connection.JDBCConnection">
+		<connectionParameter name="ServerAddress"><![CDATA[127.0.0.1]]></connectionParameter>
+		<connectionParameter name="SavePassword"><![CDATA[true]]></connectionParameter>
+		<connectionParameter name="Url"><![CDATA[jdbc:mysql://127.0.0.1/sogemee]]></connectionParameter>
+		<connectionParameter name="JDBCDriver"><![CDATA[com.mysql.jdbc.Driver]]></connectionParameter>
+		<connectionParameter name="Database"><![CDATA[]]></connectionParameter>
+		<connectionParameter name="Password"><![CDATA[roldick]]></connectionParameter>
+		<connectionParameter name="Username"><![CDATA[roldick]]></connectionParameter>
+	</iReportConnection>
+</iReportConnectionSet>

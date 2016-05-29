@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="listeT" class="java.util.List">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="listeM" class="java.util.List">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select p.idPlanche,t.libelleTypeBois,f.libelleFormePlanche,l.valeurLongeur,i.qteInventaire,x.qteSortie  from planche p,inventaire_planche i,inventaire q,typeBois t,formePlanche f,longeurPlanche l,sortie s,sortie_planche x where i.idPlanche=p.idPlanche  and q.idInventaire=i.idInventaire and q.dateInventaire=$P{date} and p.idTypeBois=t.idTypeBois and p.idFormePlanche=f.idFormePlanche and p.idLongeurPlanche=l.idLongeurPlanche and x.idSortie=s.idSortie and s.dateSortie=$P{date} and x.idPlanche=p.idPlanche and x.motifSortie='Vole' group by p.idPlanche]]>
+	</queryString>
+	<field name="idPlanche" class="java.lang.Long"/>
+	<field name="libelleTypeBois" class="java.lang.String"/>
+	<field name="libelleFormePlanche" class="java.lang.String"/>
+	<field name="valeurLongeur" class="java.lang.Float"/>
+	<field name="qteInventaire" class="java.lang.Integer"/>
+	<field name="qteSortie" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="63" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SOGEME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="29" height="20"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[B.P]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="29" height="20"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tel]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="158" y="0" width="125" height="20"/>
+				<textElement>
+					<font size="15" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Inventaire du ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="283" y="0" width="165" height="20"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date().toString()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="348" y="2" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Quantité Trouvée]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="2" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Type Bois]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="112" y="2" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Forme]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="226" y="0" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Longueur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="455" y="0" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Non trouvé]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="12" y="2" width="100" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{libelleTypeBois}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="226" y="0" width="100" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{valeurLongeur}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="348" y="2" width="100" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{qteInventaire}.toString()]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement x="0" y="0" width="555" height="20"/>
+				<textField>
+					<reportElement x="112" y="2" width="100" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{libelleFormePlanche}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="455" y="2" width="100" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{qteSortie}.toString()]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="12" y="19" width="543" height="10" backcolor="#E76E6E"/>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="1" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

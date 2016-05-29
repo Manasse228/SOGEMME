@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select idCommande,dateCommande,sum(qte),'Totalement Livrée' as etat from etatCommande group by idCommande having sum(qte)=0 
+union
+select idCommande,dateCommande,sum(qte),'Partiellement livrée' from etatCommande group by idCommande having sum(qte)>0 and idCommande  in(select idCommande from etatCommande where qte<0)
+union
+select idCommande,dateCommande,sum(qte),'Pas encore livrée' from etatCommande group by idCommande having sum(qte)>0 and idCommande not in(select idCommande from etatCommande where qte<0)]]>
+	</queryString>
+	<field name="idCommande" class="java.lang.Long"/>
+	<field name="dateCommande" class="java.sql.Date"/>
+	<field name="sum(qte)" class="java.math.BigDecimal"/>
+	<field name="etat" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement x="65" y="0" width="378" height="20"/>
+				<textElement>
+					<font size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Etat des commandes auprès des fournisseurs]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="2" width="100" height="15"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Num Commande]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="138" y="2" width="100" height="15"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[date Commande]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="2" width="100" height="15"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Reste à livré]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="438" y="2" width="100" height="15"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[etat]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="16" width="550" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{idCommande}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="138" y="0" width="100" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{dateCommande}.toLocaleString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="0" width="100" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{sum(qte)}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="0" width="100" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{etat}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="15" width="555" height="12" backcolor="#E77676"/>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="1" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="465" pageHeight="842" columnWidth="425" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="annee" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select sum(montantFacture),'Trimestre 1' as sem from factureClient where EXTRACT(YEAR from dateFacture)=$P{annee} and  EXTRACT(MONTH from dateFacture)<=3 
+union
+select sum(montantFacture),'Trimeste 2' as sem from factureClient where EXTRACT(YEAR from dateFacture)=$P{annee} and  EXTRACT(MONTH from dateFacture)>3 and EXTRACT(MONTH from dateFacture)<=6
+union
+select sum(montantFacture),'Trimeste 3' as sem from factureClient where EXTRACT(YEAR from dateFacture)=$P{annee} and  EXTRACT(MONTH from dateFacture)>6 and EXTRACT(MONTH from dateFacture)<=9
+union
+select sum(montantFacture),'Trimeste 4' as sem from factureClient where EXTRACT(YEAR from dateFacture)=$P{annee} and  EXTRACT(MONTH from dateFacture)>9 and EXTRACT(MONTH from dateFacture)<=12]]>
+	</queryString>
+	<field name="sum(montantFacture)" class="java.lang.Double"/>
+	<field name="sem" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement x="45" y="0" width="280" height="20"/>
+				<textElement>
+					<font size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Chiffre d'affaire trimestriel année :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="325" y="0" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{annee}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="14" splitType="Stretch">
+			<staticText>
+				<reportElement x="45" y="0" width="100" height="13"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Trimestre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="309" y="0" width="100" height="13"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Chiffre d'affaire]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="12" width="420" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="45" y="0" width="100" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{sem}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="309" y="0" width="100" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{sum(montantFacture)}.toString()]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="15" width="425" height="5" backcolor="#EE7F7F"/>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
